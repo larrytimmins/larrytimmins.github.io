@@ -1,0 +1,193 @@
+/* Create index card image of white with horizontal lines
+Solution from https://stackoverflow.com/questions/9468153/textarea-with-horizontal-rule
+*/
+.indexCardCSS {
+    background-attachment: local;
+    background-image:
+        linear-gradient(to right, white 10px, transparent 10px),
+        linear-gradient(to left, white 10px, transparent 10px),
+        repeating-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, whitesmoke 31px);
+    line-height: 31px;
+    padding: 8px 10px;
+}
+
+/*background color for app*/
+.mainColors {
+    color: navy;
+    background-color: lightcyan;
+}
+
+/*center align elements*/
+.centerAlign {
+    text-align: center;
+}
+
+/*bug fix of label auto indention of answers*/
+.fixLabelIndention {
+    text-indent: 0px;
+}
+
+/*indent radio elements in mulitple choice tests*/
+.radioButtonIndent {
+    text-indent: 15%;
+    font-size: 150%;
+}
+
+.scoreSize {
+    font-size: 230%;
+}
+
+select {
+    font-size: 150%
+}
+
+/*CSS for encouragement text to student */
+.celebratrionIconSize {
+    font-size:  210%;
+    padding-top: 10px;       
+}
+
+/*change the size and color of the mulitple choice answers after student press continue button*/
+.highlightAnswer {
+    font-size: 200%;
+    color: green;
+    transition: 1.5s;
+}
+
+.radioButtonSize {
+    width: 4.3vh;
+    height: 4.3vh;
+}
+
+/*main color of the app's text and background color*/
+.mainColors {
+    color: navy;
+    background-color: lightcyan;
+}
+
+.actionButtons {
+    background-color: green;
+    color: white;
+}
+
+.continueButton {
+    background-color: dodgerblue;
+    color: white;    
+}
+
+ .continueButton, .actionButtons, .celebratrionIconSize {
+    margin-top: 20px; /*add space between top of continue/finish button and test answers*/
+    letter-spacing: 2px; /*add letter spacing to the text inside the buttons*/
+}
+
+/*CSS for the red restart button at top of each test*/
+.restartButton {
+    background-color: red;
+}
+
+/*set the color of the streak feature element. Set up the animation*/
+.streakColor {
+    color: green;
+    animation-name: blinking; /*name of animation. Use with keyframes to change css at intervals*/
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite; /*animation will run in a loop*/
+}
+
+/*use with the animate.css javascript libary to control the bouncing of the buttons*/
+div.animated.bounce {
+    animation-duration: 5s;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+}
+
+/*set the interval changes to the CSS of the blinking named animation*/
+@keyframes blinking {
+    0%      {color:green;}
+    50%     {color:orange;}
+    100%    {color: navy;}
+}
+
+/*set the color of the score element. Set up the animation*/
+.scoreColor {
+    color: green;
+    animation-name: blinking; /*name of animation. Use with keyframes to change css at intervals*/
+    animation-duration: 1.5s;
+    animation-iteration-count: 5; /*animation will run in a loop*/
+}
+
+
+
+/*Landing Page CSS*/
+
+/*Set the landing page button's text color, margin between buttons, box shadow,width size of display, and round out the buttons*/
+.scienceButton, .MSButton, .nineWeeksTest {
+    width: 100%;
+    color: black;/*button text color*/
+    margin-top: 10px; /*space at the top between buttons*/
+    border-radius: 25px; /*round out the corners of the button*/
+    box-shadow: 1px 2px grey; /*shadow under the button*/
+}
+
+/*make all science buttons orange color*/
+.scienceButton {
+    background-color: orange;
+
+}
+
+/*make all mississippi study buttons plum color*/
+.MSButton {
+    background-color: plum;
+}
+
+/*CSS for 9 weeks test*/
+.nineWeeksTest {
+    color: white;
+    background-color: navy;
+}
+
+/*Word spacing for the title*/
+h1, h4 {
+    word-spacing: 5px;
+    letter-spacing: 2px;
+}
+
+/*horizontal bar seperating groups of chp. tests on the landing page*/
+hr{
+    border: 1.5px solid blue;
+}
+
+
+body {
+    min-height: 100%;
+}
+/*Mobile or small screen*/
+@media only screen and (max-width: 500px) {
+    .moibleIndexCardCSS {
+    background-attachment: local;
+    background-image:
+        linear-gradient(to right, white 10px, transparent 10px),
+        linear-gradient(to left, white 10px, transparent 10px),
+        repeating-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, whitesmoke 31px);
+    line-height: 31px;
+    padding: 8px 10px; 
+    min-height: 100%; /*set the css effects to the entire screen*/
+    }
+    
+    select {
+        font-size: 110%;
+    }
+    
+    .smallerText {
+        font-size: 20px;
+    }
+}
+
+/*Desktop or big screen*/
+@media only screen and (min-width: 500px) {
+
+    div.indexCardCSS {
+        top:150px;/*move landing page box into middle of screen*/
+        box-shadow: 3px 3px 18px ; /*box shadow so it appears above the blue background*/
+    }  
+}
+/*--By Smiley */

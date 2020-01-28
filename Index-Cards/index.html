@@ -1,0 +1,180 @@
+cience
+<html lang="en">
+<head>
+<script src="libs/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="libs/bootstrap.min.css">
+<!-- Optional Bootstrap theme -->
+<link rel="stylesheet" href="libs/bootstrap-theme.min.css">
+<script src="libs/bootstrap.min.js"></script>
+<script src="libs/angular.min.js"></script>
+<script src="libs/angular-ui-router.min.js"></script>
+
+<!--App.js, link to file containing state, .config, and .run app functions -->     
+<script src="JS/app.js"></script>
+    
+<!--CSS -->     
+<link rel="stylesheet" href="indexCards.css">
+<link rel="stylesheet" href="libs/animate.css">    
+    
+<!--Services -->    
+<script src="JS/vocabularyService.js"></script>
+<script src="JS/scoreService.js"></script>
+<script src="JS/streakService.js"></script>
+<script src="JS/topScoreService.js"></script>
+    
+<!--Navigation files -->    
+<script src="JS/indexCardsController.js"></script>
+<script src="JS/dataService.js"></script>
+    
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/> 
+<meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1, maximum-scale=1" charset="utf-8">   
+<title>Index Cards</title>
+</head>
+    
+<!--sets the HTML document to a angularJS app call myApp -->
+<body class=" mainColors" ng-app="IndexCards">
+  
+<div class="container-fluid">
+    <div class="row  moibleIndexCardCSS" ng-controller="indexCardsController">
+        <div class="hidden-xs col-sm-2 col-md-3 col-lg-3"></div>
+        <!--Landing page where user choose which test to take -->
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6 indexCardCSS" ng-show="finish==false && landingPage==true && fillInBlank===false">
+            <h1 class="centerAlign">INDEX CARDS</h1>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h4 class="centerAlign">Science</h4>
+                </div>
+            </div>
+            <!--Left side of landing page, Science section -->
+            <!--Left side of landing page, Kubernetes section -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">                
+                <!--Unit Tests science tests -->
+		<!-- <button type="button" class="scienceButton" ng-click="loadTest('science1','MS')">Science (Multi-Choice)</button>  -->
+                <button type="button" class="scienceButton" ng-click="loadTest('kube01','MS')">Science (Multi-Choice)</button> 
+                <hr>
+		<!-- <button type="button" class="scienceButton" ng-click="loadTest('science1','FB')">Science (Fill in Blank)</button> -->
+                <button type="button" class="scienceButton" ng-click="loadTest('kube01','FB')">Science (Fill in Blank)</button>                   
+            </div>           
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-4 col-lg-4 indexCardCSS" ng-show="finish==true">
+            <h1>Your Ending Score is {{score | number: 0}}%.</h1>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign">
+                <button type="button" class="btn btn-sm restartButton" ng-click="restart()">Restart</button>
+            </div>            
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6 indexCardCSS" ng-show="finish==false && landingPage===false && fillInBlank===false">
+        <!--Top row containing score and start over button -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!--left section containing the start over button -->
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <button type="button" class="btn btn-sm restartButton" ng-click="restart()">RESTART</button>
+            </div>
+            <!--right section containing the score -->
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 scoreSize" ng-class="{'scoreColor':flashingScore==true}">
+                <p>Score {{score | number: 0}}%</p>
+            </div>
+            <!--show student streak -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign streakColor" ng-show="streak >=3">
+                <h2 ng-class="{'animated flip':animateFlipStreak==true}">STREAK {{streak}}</h2>
+            </div>
+        </div><!--end of top div containing score and start over button -->
+        <!--Row containing Question and answers -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>{{currentQuestionNumber}}. {{currentQuestion}}</h2>
+        </div><!--end of div containing main question-->
+        
+            <div class="row radioButtonIndent" ng-repeat="a in currentAnswers">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="radio">
+                        <span ng-hide="showButtons==true && a.correct==false" ng-class="{'highlightAnswer':showButtons==true && a.correct==true}"><input class="radioButtonSize" type="radio" ng-value="a.correct" ng-click="select(a.correct)" name={{currentQuestion}}>
+                            <label class="fixLabelIndention">
+                                {{a.answer}}
+                            </label>
+                        </span>
+                                                
+                    </div>
+                </div>                
+            </div><!--end of row contining secondary ng-repeat for answers--> 
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign">
+            <span ng-show="showButtons==false">
+                <button type="button" class="btn btn-lg actionButtons" ng-click="done()">FINISH</button>
+            </span>
+            <span ng-show="showButtons==true">
+                <button type="button" class="btn btn-lg continueButton" ng-click="continue()">CONTINUE</button>
+            </span>            
+        </div><!--end of div with Done button-->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 celebratrionIconSize centerAlign smallerText"> 
+            
+            <span ng-show="showCorrectAnswer==true" class=""><i class="fa fa-smile-o" aria-hidden="true" style="background-color:yellow"></i><i class="fa fa-heart" aria-hidden="true" style="color:red"></i><i class="fa fa-thumbs-o-up" aria-hidden="true" style="color:blue"></i> {{positiveFeedBack}} <i class="fa fa-thumbs-o-up" aria-hidden="true" style="color:blue"></i><i class="fa fa-heart" aria-hidden="true" style="color:red"></i><i class="fa fa-smile-o" aria-hidden="true" style="background-color:yellow"></i></span>
+            
+            <span ng-show="showIncorrectAnswer==true" class=""><i class="fa fa-frown-o" aria-hidden="true" style="background-color:yellow"></i><i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:blue"></i> {{negativeFeedBack}} <i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:blue"></i><i class="fa fa-frown-o" aria-hidden="true" style="background-color:yellow"></i></span>            
+        
+        </div>
+        <!--section for Top Score Feature-->    
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="noTopScore">
+            <br>
+            <h4 class="centerAlign">Beat Your Highest Score</h4>
+            <h4 class="centerAlign">{{topScore | number: 0}}%</h4>
+        </div> 
+        </div><!--end of div containing Multiple choice test -->
+        
+        <!-- Fill in the Blank Test-->
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-6 indexCardCSS" ng-show="finish==false && landingPage===false && fillInBlank===true">
+        <!--Top row containing score and start over button -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!--left section containing the start over button -->
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <button type="button" class="btn btn-sm restartButton" ng-click="restart()">RESTART</button>
+            </div>
+            <!--right section containing the score -->
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 scoreSize" ng-class="{'scoreColor':flashingScore==true}">
+                <p >Score {{score | number: 0}}%</p>
+            </div>
+            <!--show student streak -->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign streakColor" ng-show="streak >=3">
+                <h2 ng-class="{'animated flip':animateFlipStreak==true}">STREAK {{streak}}</h2>
+            </div>            
+        </div><!--end of top div containing score and start over button -->
+        <!--Row containing Question and answers -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>{{currentQuestionNumber}}. {{currentQuestion}}</h2>
+        </div><!--end of div containing main question-->
+        <!--list of answers-->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign">
+            <select ng-model="a.correct" ng-click="select(a.correct)" ng-options="a.answer for a in currentAnswers"></select>
+        </div>
+        <br>    
+        <!--show correct answer if wrong-->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign">
+            <br>
+            <h4><span ng-show="showButtons==true" ng-class="{'highlightAnswer':showButtons==true}">{{correctAnswers}}</span></h4>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 centerAlign animated bounce">
+            <span ng-show="showButtons==false">
+                <button type="button" class="btn btn-lg actionButtons" ng-click="done()">FINISH</button>
+            </span>
+            <span ng-show="showButtons==true">
+                <button type="button" class="btn btn-lg continueButton" ng-click="continue()">CONTINUE</button>
+            </span>            
+        </div><!--end of div with Done button-->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 celebratrionIconSize centerAlign"> 
+            
+            <span ng-show="showCorrectAnswer==true" class=""><i class="fa fa-smile-o" aria-hidden="true" style="background-color:yellow"></i><i class="fa fa-heart" aria-hidden="true" style="color:red"></i><i class="fa fa-thumbs-o-up" aria-hidden="true" style="color:blue"></i> {{positiveFeedBack}} <i class="fa fa-thumbs-o-up" aria-hidden="true" style="color:blue"></i><i class="fa fa-heart" aria-hidden="true" style="color:red"></i><i class="fa fa-smile-o" aria-hidden="true" style="background-color:yellow"></i></span>
+            
+            <span ng-show="showIncorrectAnswer==true" class=""><i class="fa fa-frown-o" aria-hidden="true" style="background-color:yellow"></i><i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:blue"></i> {{negativeFeedBack}} <i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:blue"></i><i class="fa fa-frown-o" aria-hidden="true" style="background-color:yellow"></i></span>            
+        
+        </div>
+        <!--section for Top Score Feature-->    
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="noTopScore">
+            <br>
+            <hr>
+            <h4 class="centerAlign" ng-if="noTopScore">Beat Your Highest Score</h4>
+            <h4 class="centerAlign" ng-if="noTopScore">{{topScore | number: 0}}%</h4>
+        </div>             
+        </div><!--end of div containing the body of the app-->
+        
+        <div class="hidden-xs col-sm-2 col-md-3 col-lg-3"></div>    
+    </div><!--end of row that contains the ng-controller -->
+</div><!--end of container of the row that contains the body -->
+</body>    
+</html>
